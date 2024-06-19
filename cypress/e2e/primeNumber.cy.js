@@ -75,4 +75,12 @@ describe('Prime Number Finder', () => {
 	cy.get('p')
 	  .should('have.text', 'The input you entered did not have the format: number-number. Please try again.')
   })
+  
+  it('Can handle no text being entered', () => {
+    cy.visit('primeNumbers.html')
+	cy.get('input')
+      .type('{enter}')
+	cy.get('p')
+	  .should('have.text', 'The input you entered did not have the format: number-number. Please try again.')
+  })
 })
