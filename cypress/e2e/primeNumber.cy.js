@@ -51,6 +51,22 @@ describe('Prime Number Finder', () => {
 	  .should('have.text', 'The list of prime numbers between those numbers are: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37')
   })
   
+  it('Can handle only recieving one number', () => {
+    cy.visit('primeNumbers.html')
+	cy.get('input')
+      .type('100-100')
+      .type('{enter}')
+	cy.get('p')
+	  .should('have.text', 'There are no prime numbers within the range specified.')
+	cy.get('input')
+	  .clear()
+	cy.get('input')
+      .type('37-37')
+      .type('{enter}')
+	cy.get('p')
+	  .should('have.text', 'The list of prime numbers between those numbers are: 37')
+  })
+  
   it('Makes sure the input is entered correctly', () => {
     cy.visit('primeNumbers.html')
 	cy.get('input')
