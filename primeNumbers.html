@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Prime Number Finder</h2>
+Enter a range of numbers in the format: number-number to see the list of primes within that range(e.g. 1-10)
+
+<input id="input" type="text" placeholder="1-10"/>
+<button id="button" onclick="printInput()">Find Primes</button>
+<p id="output"></p>
+
+
+<script>
+	//Get user input and specify what the syntax is
+
+	function getPrimeFromRange(numberText){
+		var isPrime = true;
+		var listOfPrimeNumbers = [];
+		var numbers, maxNumber, minNumber, result;
+
+		//Create a regex that matches any numbers(including negatives) in between a -
+		const inputPattern = /^(\-?\d+)\-(\-?\d+)$/;
+
+		//If the input entered doesnt match the syntax then log an error
+		if(inputPattern.test(numberText)){
+			//Get the numbers from the text and designate which is larger/smaller.
+			numbers = numberText.match(inputPattern);
+			if(parseInt(numbers[1]) > parseInt(numbers[2])){
+				maxNumber = parseInt(numbers[1]);
+				minNumber = parseInt(numbers[2]);
+			}
+			else{
+				maxNumber = parseInt(numbers[2]);
+				minNumber = parseInt(numbers[1]);
+			}
+			
+			//All negatives, 0, and 1 are not prime numbers so if the smallest number is less than 2 then start searching at 2.
+			if(minNumber < 2){
+				minNumber = 2;
+			}
+			
+			//Iterate between all the numbers and check if they are prime. If they are add them to the prime array.
+			for (let i = minNumber; i <= maxNumber; i++) {
+				for (let x = 2; x < i; x++) {
+					if (i % x == 0) {
+						isPrime = false;
+						break;
+					}
+				}
+
+				if (isPrime) {
+					listOfPrimeNumbers.push(i);
+				}
+				isPrime = true;
+			}
+			
+			//Print out all the primes found or a message saying none were found.
+			if(listOfPrimeNumbers.length > 0){
+				result = "The list of prime numbers between those numbers are: " + listOfPrimeNumbers.join(", ");
+			}
+			else{
+				result = "There are no prime numbers within the range specified.";
+			}
+		}
+		else{
+			result = "The input you entered did not have the format: number-number. Please try again.";
+		}
+		return result;
+	}
+
+	const input = document.getElementById('input');
+	const output = document.getElementById('output');
+
+	function printInput(){
+	  output.innerHTML = getPrimeFromRange(input.value);
+	}
+
+	input.addEventListener("keyup", function(event) {
+	  // Number 13 is the "Enter" key on the keyboard
+	  if (event.keyCode === 13) {
+		// Cancel the default action, if needed
+		event.preventDefault();
+		// Trigger the button element with a click
+		document.getElementById("button").click();
+	  }
+	});
+</script> 
+
+</body>
+</html>
